@@ -8,9 +8,12 @@ import java.util.List;
  *
  */
 public interface Movie {
-	int getMovieId();
+	long getMovieId();
 	String getName();
 	Date getReleasedDate();
 	int getLength();
 	double getRating();
+	
+	List<MovieShow> getMovieInTheater();
+	void addMovieInTheater(MovieShow movieShow);
 }

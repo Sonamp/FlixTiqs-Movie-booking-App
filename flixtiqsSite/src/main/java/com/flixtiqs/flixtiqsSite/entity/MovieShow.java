@@ -7,9 +7,11 @@ import java.util.List;
  * @author sonam
  *
  */
-public interface MovieShow extends Movie {
+public interface MovieShow {
 	//Movie getMovie();
 	double getPrice();
-	String[] getShowTime();
-
+	String getShowTime();
+	Movie getMovie();
+	Theater getTheater();
+	
 }

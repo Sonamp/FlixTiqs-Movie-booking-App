@@ -7,10 +7,12 @@ import java.util.List;
  *
  */
 public interface Theater {
-	int getTheaterId();
+	long getTheaterId();
 	String getName();
 	String getState();
 	String getZipcode();
 	String getCity();	
+	
 	List<MovieShow> getPlayingMovies();
+	void addPlayingMovies(MovieShow movieShow);
 }

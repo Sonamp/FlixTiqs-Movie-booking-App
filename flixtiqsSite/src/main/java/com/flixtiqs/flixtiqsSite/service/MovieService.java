@@ -11,7 +11,28 @@ import com.flixtiqs.flixtiqsSite.entity.Movie;
  */
 public interface MovieService {
 
+	/**
+	 * get movies from database based on movie id
+	 */
+	Movie getMovie(long id);
+	/**
+	 * search movie by name
+	 */
 	Movie getMovie(String name);
+	/**
+	 * search movie which are released after given date
+	 */
 	List<Movie> getMovieAfterReleasedDate(Date date);
+	/**
+	 * return all movies
+	 */
 	List<Movie> getAllMovie();
+	/**
+	 * Add movie to database
+	 */
+	Movie addMovie(Movie movie);
+	/**
+	 * update movie to the database
+	 */
+	void update(Movie movie);
 }
