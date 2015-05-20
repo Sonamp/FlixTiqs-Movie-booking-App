@@ -15,6 +15,7 @@
 		<junit.version>4.11</junit.version>
 		<hibernate.version>4.3.7.Final</hibernate.version>
 		<mysqlconnector.version>5.1.34</mysqlconnector.version>
+		<resteasy.version>3.0.10.Final</resteasy.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -38,6 +39,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>		
+		
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
@@ -49,6 +63,34 @@
 			<version>${mysqlconnector.version}</version>
 		</dependency>
 
+		<!-- rest easy core library -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+		<!-- rest easy Spring integration -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-spring</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+		<!-- rest easy XML integration -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+
+		<!-- rest easy JSON integration -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jettison-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+		
 		<!-- For base64 encoding -->
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -76,6 +118,7 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -84,6 +127,11 @@
     </dependency>
   </dependencies>
   <build>
+  		<testResources>
+			<testResource>
+				<directory>src/main/webapp/WEB-INF</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -93,6 +141,21 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<!-- http port -->
+					<port>8080</port>
+					<!-- application path always starts with / -->
+					<path>/</path>
+					<useTestClasspath>false</useTestClasspath>
+					<contextReloadable>true</contextReloadable>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 </project>

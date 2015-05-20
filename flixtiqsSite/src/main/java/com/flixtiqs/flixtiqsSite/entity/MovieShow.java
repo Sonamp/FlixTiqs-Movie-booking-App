@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface MovieShow {
 	//Movie getMovie();
+	long getShowId();
 	double getPrice();
 	String getShowTime();
 	Movie getMovie();

@@ -55,7 +55,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<Theater> getTheater(String city, String state) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class)
-				.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.eq("state", state));
+				.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.ilike("state", state+"%"));
 		return crit.list();
 	}
 	/**
@@ -131,6 +131,11 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 				movies.add(show.getMovie());
 		}
 		return movies;
+	}
+
+	@Override
+	public void delete(Theater theater) {
+		this.sessionFactory.getCurrentSession().delete(theater);		
 	}
 
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +41,7 @@ public class TheaterImpl implements Theater{
 	private String zipcode;
 	
 	//List of playing movies of type movie show
-	@OneToMany(mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
 	private List<MovieShow> playingMovies = new ArrayList<MovieShow>();
 	
 	//@Autowired

@@ -41,7 +41,7 @@ public class TestMovieService extends AbstractJUnit4SpringContextTests {
 		MovieImpl movie = new MovieImpl();
 		movie.setName("Test"+new Random().nextInt(200));
 		movie.setLength(140);
-		movie.setreleasedDate(Date.valueOf("2015-05-10"));
+		movie.setreleasedDate(Date.valueOf("2015-05-22"));
 		movie.setRating(4.0);
 		Movie added = movieService.addMovie(movie);
 		logger.info("movie added "+ added);
@@ -71,15 +71,15 @@ public class TestMovieService extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void TestGetMovie()
 	{
-		Movie movie = movieService.getMovie("Bombay Velvet");
-		Assert.assertEquals("Bombay Velvet", movie.getName());
+		List<Movie> movie = movieService.getMovie("Bombay Velvet");
+		Assert.assertEquals(1, movie.size());
 		//Assert.assertEquals(4.0, movie.getRating());
 	}
 	@Test
 	public void TestGetNoMovie()
 	{
-		Movie movie = movieService.getMovie("NH10");
-		Assert.assertNull("No movie found", movie);
+		List<Movie> movie = movieService.getMovie("NH10");
+		Assert.assertEquals(0, movie.size());
 	}
 	
 	@Test

@@ -18,7 +18,7 @@ public interface MovieService {
 	/**
 	 * search movie by name
 	 */
-	Movie getMovie(String name);
+	List<Movie> getMovie(String name);
 	/**
 	 * search movie which are released after given date
 	 */
@@ -35,4 +35,6 @@ public interface MovieService {
 	 * update movie to the database
 	 */
 	void update(Movie movie);
+	
+	void delete(Movie movie);
 }

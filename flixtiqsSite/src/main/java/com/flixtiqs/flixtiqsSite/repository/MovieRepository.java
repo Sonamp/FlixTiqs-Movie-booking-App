@@ -9,8 +9,9 @@ public interface MovieRepository {
 	
 	long addMovie(Movie movie);
 	Movie getMovie(long movieId);
-	Movie getMovie(String movieName);
+	List<Movie> getMovie(String movieName);
 	List<Movie> getMovieAfterReleasedDate(Date date);
 	List<Movie> getAllMovie();
 	void update(Movie movie);
+	void delete(Movie movie);
 }

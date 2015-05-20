@@ -29,7 +29,7 @@ public class MovieServiceImpl implements MovieService{
 	private MovieRepository movieRepo;
 	@Override
 	@Transactional
-	public Movie getMovie(String name) {
+	public List<Movie> getMovie(String name) {
 		return movieRepo.getMovie(name);
 	}
 	@Override
@@ -61,6 +61,11 @@ public class MovieServiceImpl implements MovieService{
 	@Transactional
 	public void update(Movie movie) {
 		movieRepo.update(movie);
+		
+	}
+	@Override
+	public void delete(Movie movie) {
+		movieRepo.delete(movie);
 		
 	}
 }

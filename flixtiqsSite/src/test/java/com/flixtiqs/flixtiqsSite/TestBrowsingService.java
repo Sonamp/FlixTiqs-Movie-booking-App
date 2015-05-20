@@ -43,9 +43,9 @@ public class TestBrowsingService  extends AbstractJUnit4SpringContextTests {
 	{
 
 		TheaterImpl theater = new TheaterImpl();
-		theater.setName("Theater_" + new Random().nextInt(200));
-		theater.setCity("City_" + new Random().nextInt(200) );
-		theater.setState("ST_"+ new Random().nextInt(200));
+		theater.setName("Theater_" + new Random().nextInt(30));
+		theater.setCity("City_" + new Random().nextInt(20) );
+		theater.setState("ST_"+ new Random().nextInt(10));
 		theater.setZipcode(String.valueOf((new Random().nextInt(9999)+ 80000)));
 		Theater added = theaterService.addTheater(theater);
 		
@@ -176,9 +176,9 @@ public class TestBrowsingService  extends AbstractJUnit4SpringContextTests {
 	private Theater createTheater()
 	{
 		TheaterImpl theater = new TheaterImpl();
-		theater.setName("Theater_" + new Random().nextInt(200));
-		theater.setCity("City_" + new Random().nextInt(200) );
-		theater.setState("ST_"+ new Random().nextInt(200));
+		theater.setName("Theater_" + new Random().nextInt(30));
+		theater.setCity("City_" + new Random().nextInt(20) );
+		theater.setState("ST_"+ new Random().nextInt(10));
 		theater.setZipcode(String.valueOf((new Random().nextInt(9999)+ 80000)));
 		return theaterService.addTheater(theater);
 	}

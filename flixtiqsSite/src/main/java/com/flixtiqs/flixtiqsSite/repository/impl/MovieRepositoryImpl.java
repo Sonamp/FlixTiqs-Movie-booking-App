@@ -38,14 +38,10 @@ public class MovieRepositoryImpl implements MovieRepository {
 	 * search movie by name
 	 */
 	@Override
-	public Movie getMovie(String movieName) {
+	public List<Movie> getMovie(String movieName) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieImpl.class)
-				.add(Restrictions.eq("name", movieName));	
-		Object obj =  crit.uniqueResult();
-		if(obj != null)
-			return (Movie)obj;
-		else
-			return null;		
+				.add(Restrictions.ilike("name", "%"+movieName+"%"));	
+		return crit.list();		
 	}
 
 	/**
@@ -74,6 +70,10 @@ public class MovieRepositoryImpl implements MovieRepository {
 	public void update(Movie movie) {
 		this.sessionFactory.getCurrentSession().update(movie);
 		
+	}
+	@Override
+	public void delete(Movie movie) {
+		this.sessionFactory.getCurrentSession().delete(movie);
 	}
 
 }

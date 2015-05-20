@@ -88,4 +88,14 @@ public class MovieShowImpl implements MovieShow {
 	{
 		this.theater =  theater;
 	}
+
+	@Override
+	public long getShowId() {
+		// TODO Auto-generated method stub
+		return this.showId;
+	}
+	public void setShowId(long id)
+	{
+		this.showId = id;
+	}
 }

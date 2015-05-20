@@ -18,4 +18,5 @@ public interface TheaterRepository {
 	List<Theater> getTheaterForMovie(Movie movie);
 	List<MovieShow> getPlayingMovieShows(Theater theater);
 	List<Movie> getPlayingMovies(Theater theater);
+	void delete(Theater theater);
 }
