@@ -69,7 +69,7 @@ public class TheaterResource {
 		{
 			foundList = theaterService.getTheaterByName(name);
 		}
-		else if(city != null && state != null)
+		else if(city != null || state != null)
 		{
 			foundList = theaterService.getTheaterByCityState(city, state);
 		}
@@ -83,7 +83,7 @@ public class TheaterResource {
 		}
 		
 		List<HttpTheater> returnList = new ArrayList<>(foundList.size());
-		if(movieId != 0)
+		if(movieId != null)
 		{		
 			for(Theater theater : foundList){
 			List<MovieShow> showList = theaterService.getMovieShow(movieService.getMovie(movieId), theater);

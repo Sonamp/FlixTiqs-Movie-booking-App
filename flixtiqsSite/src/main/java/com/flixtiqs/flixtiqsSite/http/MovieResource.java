@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -91,7 +92,8 @@ public class MovieResource {
 		logger.info("updating movie :"+movie.getMovieId());
 		return Response.status(Status.CREATED).header("Location", "/movies/"+movie.getMovieId()).entity(new HttpMovie(movie)).build();
 	}
-	
+	@DELETE
+	@Path("/")
 	public Response deleteMovie(HttpMovie dlMovie)
 	{
 		Movie movie = convert(dlMovie);

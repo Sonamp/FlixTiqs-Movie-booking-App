@@ -41,7 +41,7 @@ public class TheaterImpl implements Theater{
 	private String zipcode;
 	
 	//List of playing movies of type movie show
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
 	private List<MovieShow> playingMovies = new ArrayList<MovieShow>();
 	
 	//@Autowired

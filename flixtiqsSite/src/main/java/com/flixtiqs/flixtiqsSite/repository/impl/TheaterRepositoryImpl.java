@@ -54,8 +54,13 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Theater> getTheater(String city, String state) {
-		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class)
-				.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.ilike("state", state+"%"));
+		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class);
+		if(city !=null && state !=null)
+				crit = crit.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.ilike("state", "%"+state+"%"));
+		else if(city != null)
+				crit = crit.add(Restrictions.ilike("city", "%"+city+"%"));
+		else if(state != null)
+			crit= crit.add(Restrictions.ilike("state", "%"+state+"%"));
 		return crit.list();
 	}
 	/**

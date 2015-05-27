@@ -64,6 +64,7 @@ public class MovieServiceImpl implements MovieService{
 		
 	}
 	@Override
+	@Transactional
 	public void delete(Movie movie) {
 		movieRepo.delete(movie);
 		
