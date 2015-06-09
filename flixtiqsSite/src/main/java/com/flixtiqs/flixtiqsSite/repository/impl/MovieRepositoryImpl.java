@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.flixtiqs.flixtiqsSite.entity.Movie;
 import com.flixtiqs.flixtiqsSite.entity.impl.MovieImpl;
 import com.flixtiqs.flixtiqsSite.repository.MovieRepository;
+import com.flixtiqs.flixtiqsSite.service.exception.ErrorCode;
+import com.flixtiqs.flixtiqsSite.service.exception.FlixtiqsException;
 
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
@@ -68,7 +70,12 @@ public class MovieRepositoryImpl implements MovieRepository {
 	 */
 	@Override
 	public void update(Movie movie) {
+		try{
 		this.sessionFactory.getCurrentSession().update(movie);
+		}
+		catch(Exception e){
+			throw new FlixtiqsException(ErrorCode.INVALID_FIELD, "Data is invalid. ");
+		}
 		
 	}
 	@Override

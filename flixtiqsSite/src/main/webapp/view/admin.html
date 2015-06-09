@@ -48,10 +48,14 @@
 				</div>	
 				<div class="col-md-4 animate-hide formbg" ng-show="showUpdateMovieForm">
 					<h4>Update Movie</h4>
-					<form>
+					<form id="upMovieForm" >
 						<div class="form-group">
 							<label for="upMovie">Movie</label>	
-							<select class="form-control" id="upMovie" ng-model="selectedUpMovie" ng-options="movie.name for movie in upMovies |orderBy: 'name'" placeholder="Select movie"></select>
+							<select class="form-control" id="upMovie" required ng-model="selectedUpMovie" ng-options="movie.name for movie in upMovies |orderBy: 'name'" placeholder="Select movie"></select>
+							<div role="alert">
+						      <span class="error" ng-show="upMovieFormm.upMovie.$error.required">
+						       Required!</span>
+						    </div>
 						</div>
 						<div class="form-group">
 							<label for="upMovieName">Movie Name  </label>				
@@ -93,14 +97,14 @@
 							<input type="text" id="addState" class="form-control" ng-model="addState"  placeholder="Enter State"/> 
 						</div>
 						<div class="form-group">
-							<label for="addZip">Rating</label>				
+							<label for="addZip">ZipCode</label>				
 							<input type="text" id="addZip" class="form-control" ng-model="addZip"  placeholder="Enter zipCode"/> 
 						</div>
 						<button class="btn btn-info btn-sm" ng-click="addTheater()">Add Theater</button>
 					</form>
 				</div>	
 				<div class="col-md-4 animate-hide formbg" ng-show="showUpdateTheaterForm">
-					<h4>Add New Theater</h4>
+					<h4>Update Theater</h4>
 					<form>
 						<div class="form-group">
 							<label for="upTheater">Theater</label>		
@@ -119,7 +123,7 @@
 							<input type="text" id="upState" class="form-control" ng-model="selectedUpTheater.state"  /> 
 						</div>
 						<div class="form-group">
-							<label for="upZip">Rating</label>				
+							<label for="upZip">Zipcode</label>				
 							<input type="text" id="upZip" class="form-control" ng-model="selectedUpTheater.zip"/> 
 						</div>
 						<button class="btn btn-info btn-sm" ng-click="updateTheater(false)">Update Theater</button>

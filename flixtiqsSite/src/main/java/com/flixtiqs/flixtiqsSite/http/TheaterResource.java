@@ -131,7 +131,7 @@ public class TheaterResource {
 		}
 		catch(Exception e)
 		{
-			throw new FlixtiqsException(ErrorCode.MISSING_DATA, " Dats is missing." );
+			throw new FlixtiqsException(ErrorCode.MISSING_DATA, " Data is missing." );
 		}
 		return theater;
 	}

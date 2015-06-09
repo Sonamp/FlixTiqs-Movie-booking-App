@@ -221,7 +221,7 @@ adminApp.controller("adminController", function($scope, $http) {
 	$scope.updateTheater = function(isDeleted) {
 		//remove current results
 		$scope.messageText="";	
-		$scope.showUpdateTheaterForm = false;
+		//$scope.showUpdateTheaterForm = false;
 		//search
 		$http.put('/flixtiqsSite/rest/theaters',		
 			{theater: {theaterId:$scope.selectedUpTheater.id, name:$scope.selectedUpTheater.name, city:$scope.selectedUpTheater.city, state: $scope.selectedUpTheater.state,zipcode: $scope.selectedUpTheater.zip, isdeleted:isDeleted}})

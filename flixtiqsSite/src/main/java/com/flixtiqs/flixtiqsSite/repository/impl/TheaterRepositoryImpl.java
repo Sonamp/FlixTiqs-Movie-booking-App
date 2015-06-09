@@ -17,6 +17,8 @@ import com.flixtiqs.flixtiqsSite.entity.Theater;
 import com.flixtiqs.flixtiqsSite.entity.impl.MovieShowImpl;
 import com.flixtiqs.flixtiqsSite.entity.impl.TheaterImpl;
 import com.flixtiqs.flixtiqsSite.repository.TheaterRepository;
+import com.flixtiqs.flixtiqsSite.service.exception.ErrorCode;
+import com.flixtiqs.flixtiqsSite.service.exception.FlixtiqsException;
 @Repository
 public class TheaterRepositoryImpl implements TheaterRepository {
 
@@ -80,7 +82,12 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	 */
 	@Override
 	public void update(Theater theater) {
+		try{
 			this.sessionFactory.getCurrentSession().update(theater);	
+		}
+		catch(Exception e){
+			throw new FlixtiqsException(ErrorCode.INVALID_FIELD, "Data is invalid. ");
+		}
 	}
 
 	/**

@@ -51,7 +51,7 @@ public class BrowsingServiceImpl implements BrowsingService {
 		}
 		catch(Exception e)
 		{
-			throw new FieldsException("Theater not added"+ theater);
+			throw new FieldsException("Theater not added "+ theater);
 		}
 		return theaterRepo.getTheater(id);
 	}
