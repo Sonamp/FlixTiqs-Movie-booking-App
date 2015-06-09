@@ -13,7 +13,8 @@ public interface Movie {
 	Date getReleasedDate();
 	int getLength();
 	double getRating();
-	
+	String getCategory();
+	boolean isDeleted();
 	List<MovieShow> getMovieInTheater();
 	void addMovieInTheater(MovieShow movieShow);
 }

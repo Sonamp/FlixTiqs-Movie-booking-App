@@ -3,28 +3,56 @@ var flixtiqsApp = angular.module('flixtiqsApp', []);
 flixtiqsApp.controller('movieSearchController', function($scope, $http) {
 	
 	$scope.movies = [];
+	
+	function formatDate(date) {
+	    var d = new Date(date),
+	        month = '' + (d.getMonth() + 1),
+	        day = '' + d.getDate(),
+	        year = d.getFullYear();
 
-	$scope.searchMovie = function() {
+	    if (month.length < 2) month = '0' + month;
+	    if (day.length < 2) day = '0' + day;
+
+	    return [year, month, day].join('-');
+	}
+
+	$scope.searchMovie = function(nowPlaying, comingSoon) {
 		//remove current results
 		$scope.movies = [];
 		$scope.theaters = [];
 		$scope.movieTheaters = [];
 		$scope.theaterMovies = [];
 		$scope.messageText="";
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = false;
+		$scope.showPlayingMovieinTheater = false;
+		$scope.showTheaterPlayingMovie = false;
+		$scope.showTheater = false;
+		$scope.playingMovies = [];
+		$scope.comingMovies = [];
+			
+		$scope.comingSoon = comingSoon;
+		$scope.nowPlaying =  nowPlaying;
 		//search
+		var date = "";
+		if($scope.searchDate)
+			date = formatDate($scope.searchDate);
 		$http.get('/flixtiqsSite/rest/movies',		
 			{params: {
 				name:$scope.searchMovieName, 
-				date:$scope.searchDate}})
+				date:date}})
 			.success(function(data, status) {
 				$scope.httpStatus = status;
 				$scope.httpData = data;
 				$scope.errorStatus=false;
 				$scope.messageText="Found "+data.length;
-				$scope.movies = data;
+				var currentDate = new Date();
+				for(var i=0; i< data.length; i++) {
+					var releaseDate = new Date(Date.parse(data[i].movie.releasedDate));
+					if(releaseDate > currentDate)
+						$scope.comingMovies.push(data[i]);
+					else
+						$scope.playingMovies.push(data[i]);
+				}
+				//$scope.movies = data;
 			})
 			.error(function(data, status) {
 				$scope.httpStatus = status;				
@@ -41,12 +69,15 @@ flixtiqsApp.controller('movieSearchController', function($scope, $http) {
 		$scope.movieTheaters = [];
 		$scope.theaterMovies = [];
 		$scope.messageText="";
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = false;
+		$scope.showTheaterPlayingMovie = false;
+		$scope.showPlayingMovieinTheater = false;
+		$scope.comingSoon = false;
+		$scope.nowPlaying =  false;
+		$scope.showTheater = true;
 		//search
 		$http.get('/flixtiqsSite/rest/theaters',		
 			{params: {
+				name:$scope.searchName,
 				city:$scope.searchCity, 
 				state:$scope.searchState,
 				zip:$scope.searchZip}})
@@ -65,15 +96,13 @@ flixtiqsApp.controller('movieSearchController', function($scope, $http) {
 			});		
 	};
 	
-	$scope.searchTheaterforMovie = function(id) {
+	$scope.searchTheaterforMovie = function(id, name) {
 		//remove current results
 		$scope.movieTheaters = [];
 		$scope.theaterMovies = [];
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = false;
 		$scope.messageText="";
-		
+		$scope.showTheaterPlayingMovie = true;
+		$scope.movieName = name;
 		//search
 		$http.get('/flixtiqsSite/rest/theaters',		
 			{params: {
@@ -93,14 +122,13 @@ flixtiqsApp.controller('movieSearchController', function($scope, $http) {
 			});		
 	};
 	
-	$scope.searchMoviesforTheater = function(id) {
+	$scope.searchMoviesforTheater = function(id, name) {
 		//remove current results
 		$scope.theaterMovies = [];
 		$scope.movieTheaters = [];
 		$scope.messageText="";
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = false;
+		$scope.showPlayingMovieinTheater = true;
+		$scope.theaterName = name;
 		//search
 		$http.get('/flixtiqsSite/rest/movieshow',		
 			{params: {
@@ -134,75 +162,44 @@ flixtiqsApp.controller('movieSearchController', function($scope, $http) {
 			});		
 	};
 	
-	$scope.addMovieForm = function(){
-		$scope.showAddMovieForm = true;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = false;
-		$scope.theaters = [];
-		$scope.movies = [];
-		$scope.movieTheaters = [];
-		$scope.theaterMovies = [];
-	};
 	
-	$scope.addMovie = function() {
-		//remove current results
-		$scope.messageText="";
-		$scope.showAddMovieForm = false;		
-		//search
-		$http.post('/flixtiqsSite/rest/movies',		
-			{movie: {name:$scope.addMovieName,releasedDate:$scope.addDate,length: $scope.addLength,rating: $scope.addRating}})
+});
+
+flixtiqsApp.controller("showBookController", function($scope, $routeParams, $http) {
+	var showId = $routeParams.showId;
+	$scope.messageText = "";
+	$http.get('/flixtiqsSite/rest/movieshow/'+showId)
 			.success(function(data, status) {
 				$scope.httpStatus = status;
 				$scope.httpData = data;
-				$scope.errorStatus=false;				
-				$scope.messageText="Created new movie with ID "+data.movie.movieId;
+				$scope.errorStatus=false;
+				$scope.messageText="";
+				$scope.show = data.movieShow;
 			})
 			.error(function(data, status) {
 				$scope.httpStatus = status;				
 				$scope.httpData = data;
 				$scope.errorStatus=true;
 				$scope.messageText=data.error.code+ " "+ data.error.message;
-			});		
-	};
+			});	
 	
-	$scope.addTheaterForm = function(){
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = true;
-		$scope.showAddMovietoTheaterForm = false;
-		$scope.theaters = [];
-		$scope.movies = [];
-		$scope.movieTheaters = [];
-		$scope.theaterMovies = [];
-	};
-	
-	$scope.addTheater = function() {
-		//remove current results
-		$scope.messageText="";
-		$scope.showAddTheaterForm = false;
-		//search
-		$http.post('/flixtiqsSite/rest/theaters',		
-			{theater: {name:$scope.addTheaterName,city:$scope.addCity,state: $scope.addState,zipcode: $scope.addZip}})
-			.success(function(data, status) {
-				$scope.httpStatus = status;
-				$scope.httpData = data;
-				$scope.errorStatus=false;				
-				$scope.messageText="Created new theater with ID "+data.theater.theaterId;
-			})
-			.error(function(data, status) {
-				$scope.httpStatus = status;				
-				$scope.httpData = data;
-				$scope.errorStatus=true;
-				$scope.messageText=data.error.code+ " "+ data.error.message;
-			});		
-	};
-	
-	$scope.addMovietoTheaterForm = function(){
-		$scope.showAddMovieForm = false;
-		$scope.showAddTheaterForm = false;
-		$scope.showAddMovietoTheaterForm = true;
-		$scope.theaters = [];
-		$scope.movies = [];
-		$scope.movieTheaters = [];
-		$scope.theaterMovies = [];
-	};
+	$scope.purchageTicket = function(){
+		$scope.messageText = "";
+		var seatsAvail = $scope.show.seatsAvailable - $scope.ticket;
+		$http.put('/flixtiqsSite/rest/movieshow',		
+				{movieShow:{showId:$scope.show.showId, price:$scope.show.price, showTime:$scope.show.showTime, movieId:$scope.show.movieId, theaterId:$scope.show.theaterId, seatsAvailable:seatsAvail, isdeleted: $scope.show.isdeleted}})
+				.success(function(data, status) {
+					$scope.httpStatus = status;
+					$scope.httpData = data;
+					$scope.errorStatus=false;	
+					$scope.messageText="You have booked "+ $scope.ticket + " ticket/s for Movie " + data.movieShow.movie.name + " at show time " + data.movieShow.showTime;
+					$scope.show = data.movieShow;
+				})
+				.error(function(data, status) {
+					$scope.httpStatus = status;				
+					$scope.httpData = data;
+					$scope.errorStatus=true;
+					$scope.messageText=data.error.code+ " "+ data.error.message;
+				});		
+		};
 });

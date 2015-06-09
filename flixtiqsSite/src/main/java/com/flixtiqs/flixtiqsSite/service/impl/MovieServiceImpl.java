@@ -16,6 +16,7 @@ import com.flixtiqs.flixtiqsSite.entity.impl.MovieImpl;
 import com.flixtiqs.flixtiqsSite.repository.MovieRepository;
 import com.flixtiqs.flixtiqsSite.repository.impl.MovieRepositoryImpl;
 import com.flixtiqs.flixtiqsSite.service.MovieService;
+import com.flixtiqs.flixtiqsSite.service.exception.FieldsException;
 
 /**
  * Implementation of movie service interface
@@ -42,13 +43,25 @@ public class MovieServiceImpl implements MovieService{
 	@Override
 	@Transactional
 	public Movie addMovie(Movie movie) {
-		long id = movieRepo.addMovie(movie); 
+		long id = 0;
+		try{
+			id = movieRepo.addMovie(movie); 
+		}
+		catch(Exception e)
+		{
+			throw new FieldsException("Movie is not added"+ movie);
+		}
 		return movieRepo.getMovie(id);
 	}
 	@Override
 	@Transactional
-	public Movie getMovie(long id) {		
-		return movieRepo.getMovie(id);
+	public Movie getMovie(long id) {
+		Movie found = movieRepo.getMovie(id);
+		if(found== null)
+		{
+			throw new FieldsException("Movie not found"+ id);
+		}
+		return found;
 	}
 	
 	

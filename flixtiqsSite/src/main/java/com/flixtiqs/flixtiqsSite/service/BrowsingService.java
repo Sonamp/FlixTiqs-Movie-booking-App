@@ -20,6 +20,10 @@ public interface BrowsingService {
 	 */
 	Theater getTheater(long id);
 	/**
+	 * get all theaters
+	 */
+	List<Theater> getAllTheater();
+	/**
 	 * search theater by name
 	 */
 	List<Theater> getTheaterByName(String name);
@@ -51,4 +55,8 @@ public interface BrowsingService {
 	 * get only movies in the searched theater
 	 */
 	List<Movie> getPlayingMovies(Theater theater);
+	/**
+	 * get movieShow by id
+	 */
+	MovieShow getMovieShowById(long id);
 }

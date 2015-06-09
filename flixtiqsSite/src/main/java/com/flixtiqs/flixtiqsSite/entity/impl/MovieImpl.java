@@ -39,6 +39,10 @@ public class MovieImpl implements Movie {
 	private int length;
 	@Column(name="rating")
 	private double rating;
+	@Column(name="deleted")
+	private int deleted;
+	@Column(name="category")
+	private String category;
     
 	@OneToMany(mappedBy="movie", targetEntity=MovieShowImpl.class, cascade= CascadeType.ALL)
 	private List<MovieShow> movieInTheaters;
@@ -113,6 +117,24 @@ public class MovieImpl implements Movie {
 		this.movieInTheaters.add(movieShow);
 		
 	}
-	
-
+	@Override
+	public boolean isDeleted() {	
+		if(deleted == 0)
+			return false;
+		else
+			return true;
+	}
+	public void setDeleted(boolean deleted){
+		if(deleted)
+			this.deleted = -1;
+		else
+			this.deleted = 0;
+	}
+	@Override
+	public String getCategory() {
+		return this.category;
+	}
+	public void setCategory(String category){
+		this.category = category;
+	}
 }

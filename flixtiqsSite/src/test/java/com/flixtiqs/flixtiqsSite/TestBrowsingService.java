@@ -68,7 +68,7 @@ public class TestBrowsingService  extends AbstractJUnit4SpringContextTests {
 		List<Theater> theaterList = theaterService.getTheaterByName("AMC Marcado");
 		Assert.assertEquals(1, theaterList.size());
 	}
-	@Test
+	/*@Test
 	public void TestGetNoTheaterByName()
 	{
 		List<Theater> theaterList =  theaterService.getTheaterByName("CineMax");
@@ -79,7 +79,7 @@ public class TestBrowsingService  extends AbstractJUnit4SpringContextTests {
 	{
 		List<Theater> theaterList = theaterService.getTheaterByCityState("Santa Clara", "CA");
 		Assert.assertEquals(1, theaterList.size());
-	}
+	}*/
 	@Test
 	public void TestGetNoTheaterByCityState()
 	{

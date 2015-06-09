@@ -40,7 +40,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 	@Override
 	public List<Movie> getMovie(String movieName) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieImpl.class)
-				.add(Restrictions.ilike("name", "%"+movieName+"%"));	
+				.add(Restrictions.ilike("name", "%"+movieName+"%")).add(Restrictions.eq("deleted", 0));	
 		return crit.list();		
 	}
 
@@ -50,7 +50,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 	@Override
 	public List<Movie> getMovieAfterReleasedDate(Date date) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieImpl.class)
-				.add(Restrictions.gt("releasedDate", date));		
+				.add(Restrictions.gt("releasedDate", date)).add(Restrictions.eq("deleted", 0));		
 		return crit.list();
 	}
 
@@ -59,7 +59,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 	 */
 	@Override
 	public List<Movie> getAllMovie() {
-		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieImpl.class);
+		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieImpl.class).add(Restrictions.eq("deleted", 0));
 		return crit.list();
 	}
 

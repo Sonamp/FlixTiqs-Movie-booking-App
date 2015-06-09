@@ -14,5 +14,6 @@ public interface MovieShow {
 	String getShowTime();
 	Movie getMovie();
 	Theater getTheater();
-	
+	boolean isDeleted();
+	int getSeatsAvail();
 }

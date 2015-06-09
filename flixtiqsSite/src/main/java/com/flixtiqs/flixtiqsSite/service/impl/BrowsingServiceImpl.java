@@ -14,6 +14,7 @@ import com.flixtiqs.flixtiqsSite.entity.Theater;
 import com.flixtiqs.flixtiqsSite.entity.impl.TheaterImpl;
 import com.flixtiqs.flixtiqsSite.repository.TheaterRepository;
 import com.flixtiqs.flixtiqsSite.service.BrowsingService;
+import com.flixtiqs.flixtiqsSite.service.exception.FieldsException;;
 
 /**
  * Implementation of Browsing service interface
@@ -43,13 +44,26 @@ public class BrowsingServiceImpl implements BrowsingService {
 	@Override
 	@Transactional
 	public Theater addTheater(Theater theater) {
-		long id = theaterRepo.addTheater(theater);
+		long id = 0;
+		try
+		{
+			id = theaterRepo.addTheater(theater);
+		}
+		catch(Exception e)
+		{
+			throw new FieldsException("Theater not added"+ theater);
+		}
 		return theaterRepo.getTheater(id);
 	}
 	@Override
 	@Transactional
-	public Theater getTheater(long id) {		
-		return theaterRepo.getTheater(id);
+	public Theater getTheater(long id) {	
+		Theater found = theaterRepo.getTheater(id);
+		if(found == null)
+		{
+			throw new FieldsException("Theater not found "+ id);
+		}
+		return found;
 	}
 	@Override
 	@Transactional
@@ -76,5 +90,15 @@ public class BrowsingServiceImpl implements BrowsingService {
 	@Transactional
 	public List<Movie> getPlayingMovies(Theater theater) {
 		return theaterRepo.getPlayingMovies(theater);
+	}
+	@Override
+	@Transactional
+	public List<Theater> getAllTheater() {		
+		return theaterRepo.getAllTheaters();
+	}
+	@Override
+	@Transactional
+	public MovieShow getMovieShowById(long id) {
+		return theaterRepo.getMovieShowById(id);
 	}
 }

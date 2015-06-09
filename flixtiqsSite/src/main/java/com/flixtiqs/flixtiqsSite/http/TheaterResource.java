@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,6 +29,7 @@ import com.flixtiqs.flixtiqsSite.http.entity.HttpMovie;
 import com.flixtiqs.flixtiqsSite.http.entity.HttpTheater;
 import com.flixtiqs.flixtiqsSite.service.BrowsingService;
 import com.flixtiqs.flixtiqsSite.service.MovieService;
+import com.flixtiqs.flixtiqsSite.service.exception.ErrorCode;
 import com.flixtiqs.flixtiqsSite.service.exception.FlixtiqsException;
 
 @Path("/theaters")
@@ -59,6 +61,15 @@ public class TheaterResource {
 		return new HttpTheater(theater, showList);
 	}
 	
+	@PUT
+	@Path("/")
+	public Response updateTheater(HttpTheater newTheater){
+		Theater theater = convert(newTheater);
+		theaterService.update(theater);
+		logger.info("updating theater :"+theater.getTheaterId());
+		return Response.status(Status.CREATED).header("Location", "/theaters/").entity(new HttpTheater(theaterService.getTheater(theater.getTheaterId()))).build();
+	}
+	
 	@GET
 	@Path("/")
 	@Wrapped(element="theaters")
@@ -81,7 +92,10 @@ public class TheaterResource {
 		{
 			foundList = theaterService.getTheaterForMovie(movieService.getMovie(movieId));
 		}
-		
+		else
+		{
+			foundList = theaterService.getAllTheater();
+		}
 		List<HttpTheater> returnList = new ArrayList<>(foundList.size());
 		if(movieId != null)
 		{		
@@ -106,11 +120,19 @@ public class TheaterResource {
 	private TheaterImpl convert(HttpTheater httpTheater)
 	{
 		TheaterImpl theater = new TheaterImpl();
+		try
+		{
 		theater.setTheaterId(httpTheater.theaterId);
 		theater.setName(httpTheater.name);
 		theater.setCity(httpTheater.city);
 		theater.setState(httpTheater.state);
 		theater.setZipcode(httpTheater.zipcode);
+		theater.setDeleted(httpTheater.isdeleted);
+		}
+		catch(Exception e)
+		{
+			throw new FlixtiqsException(ErrorCode.MISSING_DATA, " Dats is missing." );
+		}
 		return theater;
 	}
 }

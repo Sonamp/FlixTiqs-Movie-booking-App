@@ -13,10 +13,12 @@ public interface TheaterRepository {
 	List<Theater> getTheater(String theaterName);
 	List<Theater> getTheater(String city, String state);
 	List<Theater> getTheaterByZip(String zipcode);
+	List<Theater> getAllTheaters();
 	void update(Theater theater);
 	List<MovieShow>getMovieShow(Movie movie, Theater theater);
 	List<Theater> getTheaterForMovie(Movie movie);
 	List<MovieShow> getPlayingMovieShows(Theater theater);
 	List<Movie> getPlayingMovies(Theater theater);
 	void delete(Theater theater);
+	MovieShow getMovieShowById(long id);
 }

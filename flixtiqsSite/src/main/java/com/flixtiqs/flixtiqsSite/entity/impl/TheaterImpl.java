@@ -39,9 +39,11 @@ public class TheaterImpl implements Theater{
 	private String state;
 	@Column(name="zipcode")
 	private String zipcode;
+	@Column(name="deleted")
+	private int deleted;
 	
 	//List of playing movies of type movie show
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="theater", targetEntity=MovieShowImpl.class, cascade=CascadeType.ALL)
 	private List<MovieShow> playingMovies = new ArrayList<MovieShow>();
 	
 	//@Autowired
@@ -122,8 +124,35 @@ public class TheaterImpl implements Theater{
 	public void addPlayingMovies(MovieShow movieShow) {
 		if(this.playingMovies == null)
 			this.playingMovies = new ArrayList<MovieShow>();
-		this.playingMovies.add(movieShow);
+		if(!this.playingMovies.contains(movieShow))
+			this.playingMovies.add(movieShow);
 	}
 
+	@Override
+	public boolean isDeleted() {
+		if(deleted == 0)
+			return false;
+		else
+			return true;
+	}
+	public void setDeleted(boolean deleted){
+		if(deleted)
+			this.deleted = -1;
+		else
+			this.deleted = 0;
+	}
+
+	@Override
+	public void updatePlayingMovie(MovieShow movieShow) {
+		// TODO Auto-generated method stub
+		for(MovieShow show : this.playingMovies)
+		{
+			if(show.getShowId() == movieShow.getShowId())
+			{
+				int index = this.playingMovies.indexOf(show);
+				this.playingMovies.set(index, movieShow);
+			}
+		}
+	}
 
 }

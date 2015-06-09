@@ -27,6 +27,7 @@ import com.flixtiqs.flixtiqsSite.entity.Movie;
 import com.flixtiqs.flixtiqsSite.entity.impl.MovieImpl;
 import com.flixtiqs.flixtiqsSite.http.entity.HttpMovie;
 import com.flixtiqs.flixtiqsSite.service.MovieService;
+import com.flixtiqs.flixtiqsSite.service.exception.ErrorCode;
 import com.flixtiqs.flixtiqsSite.service.exception.FlixtiqsException;
 
 @Path("/movies")
@@ -56,17 +57,18 @@ public class MovieResource {
 		return new HttpMovie(movie);
 	}
 	
+	
 	@GET
 	@Path("/")
 	@Wrapped(element="movies")
 	public List<HttpMovie> getMovieSearch(@QueryParam("name") String name, @QueryParam("date") String releasedDate) throws FlixtiqsException {
 		List<Movie> foundList = new ArrayList<Movie>();
-		if(name !=null)
+		if(name !=null && !name.isEmpty())
 		{
 			logger.info("getting movie by name:"+name);
 			foundList = movieService.getMovie(name);
 		}
-		else if(releasedDate != null)
+		else if(releasedDate != null && !releasedDate.isEmpty())
 		{
 			logger.info("getting movie by released date:"+releasedDate);
 			foundList = movieService.getMovieAfterReleasedDate(Date.valueOf(releasedDate));			
@@ -90,7 +92,7 @@ public class MovieResource {
 		Movie movie = convert(upMovie);
 		movieService.update(movie);
 		logger.info("updating movie :"+movie.getMovieId());
-		return Response.status(Status.CREATED).header("Location", "/movies/"+movie.getMovieId()).entity(new HttpMovie(movie)).build();
+		return Response.status(Status.CREATED).header("Location", "/movies/"+movie.getMovieId()).entity(new HttpMovie(movieService.getMovie(movie.getMovieId()))).build();
 	}
 	@DELETE
 	@Path("/")
@@ -105,12 +107,20 @@ public class MovieResource {
 	private Movie convert(HttpMovie httpMovie)
 	{
 		MovieImpl movieImpl = new MovieImpl();
+		try
+		{
 		movieImpl.setLength(httpMovie.length);
 		movieImpl.setMovieId( httpMovie.movieId);
 		movieImpl.setName(httpMovie.name);
 		movieImpl.setRating(httpMovie.rating);
-		movieImpl.setreleasedDate(httpMovie.releasedDate);
-		
+		movieImpl.setreleasedDate(Date.valueOf(httpMovie.releasedDate));
+		movieImpl.setCategory(httpMovie.category);
+		movieImpl.setDeleted(httpMovie.isdeleted);
+		}
+		catch(Exception e)
+		{
+			throw new FlixtiqsException(ErrorCode.MISSING_DATA, "Data is missing");
+		}
 		return movieImpl;
 	}
 }

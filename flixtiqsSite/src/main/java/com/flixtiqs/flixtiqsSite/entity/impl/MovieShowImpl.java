@@ -36,6 +36,10 @@ public class MovieShowImpl implements MovieShow {
 	private double price;
 	@Column(name ="showtime")
 	private String showTime;
+	@Column(name="deleted")
+	private int deleted;
+	@Column(name="seats_available")
+	private int seats_avail;
 	
 	@ManyToOne(fetch=FetchType.EAGER, targetEntity=MovieImpl.class)
 	@JoinColumn(name="Movie_idMovie")
@@ -98,4 +102,28 @@ public class MovieShowImpl implements MovieShow {
 	{
 		this.showId = id;
 	}
+
+	@Override
+	public boolean isDeleted() {	
+		if(deleted == 0)
+			return false;
+		else
+			return true;
+	}
+
+	public void setDeleted(boolean deleted){
+		if(deleted)
+			this.deleted = -1;
+		else
+			this.deleted = 0;
+	}
+
+	@Override
+	public int getSeatsAvail() {		
+		return this.seats_avail;
+	}
+	public void setSeatsAvail(int seats){
+		this.seats_avail = seats;
+	}
+	
 }

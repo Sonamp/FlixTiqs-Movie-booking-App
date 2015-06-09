@@ -12,7 +12,8 @@ public interface Theater {
 	String getState();
 	String getZipcode();
 	String getCity();	
-	
+	boolean isDeleted();
 	List<MovieShow> getPlayingMovies();
 	void addPlayingMovies(MovieShow movieShow);
+	void updatePlayingMovie(MovieShow movieShow);
 }

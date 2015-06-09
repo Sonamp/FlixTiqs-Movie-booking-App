@@ -24,7 +24,8 @@ public class HttpTheater {
 	public String zipcode;
 	@XmlElement
 	public List<HttpShow> movieShow;
-	
+	@XmlElement
+	public boolean isdeleted;
 	protected HttpTheater(){};
 	
 	
@@ -35,6 +36,7 @@ public class HttpTheater {
 		this.city = theater.getCity();
 		this.state = theater.getState();
 		this.zipcode = theater.getZipcode();
+		this.isdeleted = theater.isDeleted();
 		this.movieShow = ConvertShowList(theater.getPlayingMovies());
 	}
 	
@@ -45,6 +47,7 @@ public class HttpTheater {
 		this.city = theater.getCity();
 		this.state = theater.getState();
 		this.zipcode = theater.getZipcode();
+		this.isdeleted = theater.isDeleted();
 		this.movieShow = ConvertShowList(playingMovies);
 	}
 	

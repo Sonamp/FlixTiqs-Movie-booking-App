@@ -21,6 +21,10 @@ public class HttpShow {
 	public long movieId;
 	@XmlElement
 	public long theaterId;
+	@XmlElement
+	public boolean isdeleted;
+	@XmlElement
+	public int seatsAvailable;
 	
 	protected HttpShow(){};
 	
@@ -30,6 +34,8 @@ public class HttpShow {
 		this.showTime = show.getShowTime();
 		this.price = show.getPrice();
 		this.movie = ConvertMovie(show.getMovie());
+		this.isdeleted = show.isDeleted();
+		this.seatsAvailable = show.getSeatsAvail();
 	}
 	public HttpShow(MovieShow show, boolean flag)
 	{
@@ -39,6 +45,8 @@ public class HttpShow {
 		this.movie = ConvertMovie(show.getMovie());
 		this.movieId = show.getMovie().getMovieId();
 		this.theaterId = show.getTheater().getTheaterId();
+		this.isdeleted = show.isDeleted();
+		this.seatsAvailable = show.getSeatsAvail();
 	}
 	
 	private HttpMovie ConvertMovie(Movie movie)

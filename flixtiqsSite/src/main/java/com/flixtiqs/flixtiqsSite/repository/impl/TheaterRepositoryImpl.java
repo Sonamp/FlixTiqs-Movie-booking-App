@@ -45,7 +45,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<Theater> getTheater(String theaterName) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class)
-				.add(Restrictions.ilike("name", "%"+theaterName+"%"));
+				.add(Restrictions.ilike("name", "%"+theaterName+"%")).add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return crit.list();
 	}
 	/**
@@ -56,11 +56,12 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	public List<Theater> getTheater(String city, String state) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class);
 		if(city !=null && state !=null)
-				crit = crit.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.ilike("state", "%"+state+"%"));
+				crit = crit.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.ilike("state", "%"+state+"%"))
+						.add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		else if(city != null)
-				crit = crit.add(Restrictions.ilike("city", "%"+city+"%"));
+				crit = crit.add(Restrictions.ilike("city", "%"+city+"%")).add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		else if(state != null)
-			crit= crit.add(Restrictions.ilike("state", "%"+state+"%"));
+			crit= crit.add(Restrictions.ilike("state", "%"+state+"%")).add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return crit.list();
 	}
 	/**
@@ -70,7 +71,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<Theater> getTheaterByZip(String zipcode) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class)
-				.add(Restrictions.ilike("zipcode", "%"+zipcode+"%"));
+				.add(Restrictions.ilike("zipcode", "%"+zipcode+"%")).add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return crit.list();
 	}
 
@@ -89,7 +90,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<MovieShow> getMovieShow(Movie movie, Theater theater) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieShowImpl.class)
-				.add(Restrictions.eq("theater", theater)).add(Restrictions.eq("movie", movie));
+				.add(Restrictions.eq("theater", theater)).add(Restrictions.eq("movie", movie)).add(Restrictions.eq("deleted", 0));
 		return crit.list();
 	}
 	/**
@@ -99,7 +100,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<Theater> getTheaterForMovie(Movie movie) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieShowImpl.class)
-				.add(Restrictions.eq("movie", movie));
+				.add(Restrictions.eq("movie", movie)).add(Restrictions.eq("deleted", 0));
 		//		.add(Restrictions.eq("movie", movie)).setResultTransformer(DistinctResultTransformer.INSTANCE);		
 		List<MovieShow> list = crit.list();
 		List<Theater> theaters = new ArrayList<Theater>();
@@ -117,7 +118,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<MovieShow> getPlayingMovieShows(Theater theater) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieShowImpl.class)
-				.add(Restrictions.eq("theater", theater));
+				.add(Restrictions.eq("theater", theater)).add(Restrictions.eq("deleted", 0));
 		return crit.list();
 	}
 	/**
@@ -127,7 +128,7 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 	@Override
 	public List<Movie> getPlayingMovies(Theater theater) {
 		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(MovieShowImpl.class)
-				.add(Restrictions.eq("theater", theater));
+				.add(Restrictions.eq("theater", theater)).add(Restrictions.eq("deleted", 0));
 		List<MovieShow> list = crit.list();
 		List<Movie> movies = new ArrayList<Movie>();
 		for(MovieShow show : list)
@@ -135,12 +136,25 @@ public class TheaterRepositoryImpl implements TheaterRepository {
 			if(!movies.contains(show.getMovie()))
 				movies.add(show.getMovie());
 		}
+		
 		return movies;
 	}
 
 	@Override
 	public void delete(Theater theater) {
 		this.sessionFactory.getCurrentSession().delete(theater);		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Theater> getAllTheaters() {
+		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(TheaterImpl.class).add(Restrictions.eq("deleted", 0)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return crit.list();
+	}
+
+	@Override
+	public MovieShow getMovieShowById(long id) {
+		return (MovieShow)this.sessionFactory.getCurrentSession().get(MovieShowImpl.class, id);
 	}
 
 	
