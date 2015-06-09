@@ -1,0 +1,26 @@
+<div ng-controller="showBookController" >
+			<h4>Book Ticket for movie <u>{{show.movie.name}}</u> at <u>{{show.showTime}}</u></h4>
+			<div class="col-md-4 animate-hide formbg">
+				<p>{{messageText}}</p>
+				<form>
+						<div class="form-group">
+							<label for="available">Available Tickets</label>				
+							<label id="available" class="form-control">{{show.seatsAvailable}}</label> 
+						</div>
+						<div class="form-group">
+							<label for="price">Ticket Price</label>				
+							<label class="form-control" >${{show.price}}</label> 
+						</div>
+						
+						<div class="form-group">
+							<label for="ticket">No. of Tickets</label>				
+							<input type="text" id="ticket" class="form-control" ng-model="ticket" ng-init="ticket='1'" value="1" placeholder="Enter no. of tickets you want"  />
+						</div>
+						<div class="form-group">
+							<label for="total">Total Price</label>				
+							<label id="total" class="form-control" ng-model="total" >${{show.price*ticket}}</label>
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="purchageTicket()">Buy Tickets</button>
+					</form>
+				</div>	
+				</div>

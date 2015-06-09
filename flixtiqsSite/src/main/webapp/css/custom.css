@@ -1,0 +1,72 @@
+body
+{
+	font-family: "Georgia";
+	color: #3D193D;
+	background-color: #CDCDD8;
+}
+
+.header
+{
+	font-weight: bold;
+	font-style: italic;
+	color: #FF9966;
+	background-color: #5C005C;
+	padding: 0.6cm;
+}
+
+.search
+{
+	padding: 0.1cm;
+	background-color: #CCA0D9;
+}
+
+ tr:nth-child(2n) {
+    background-color: #E1CEE1;
+}
+
+.formbg
+{
+	background-color: #CCA0D9;
+	padding: 1cm;
+}
+/* table {
+border: 1px solid #000;
+}
+
+table table { keep nested tables from having borders
+border-width: 0px;
+} */
+
+h4
+{	
+	margin: 15px 0px;
+	padding:0.07cm;
+	font-style: italic;
+	color: #FF9966;
+	background-color: #5C005C;
+}
+
+h3
+{
+	text-align: right;
+	background-color: #C5A9CD;
+}
+
+thead {
+  @include border-radius(5px);
+}
+
+thead th {
+  font-family: Georgia;
+  font-size:16px;
+  font-weight:400;
+  color:#FF9966;
+  text-align:left;
+  padding:20px;
+  border-top:1px solid #858d99;
+  background-color:#944D94;
+}
+
+tr:hover {
+	color:#A30000;
+}

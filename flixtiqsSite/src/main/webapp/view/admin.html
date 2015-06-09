@@ -1,0 +1,186 @@
+
+			<div ng-controller="adminController">
+			<h4>Flixtiqs Administration </h4>
+				<p>{{messageText}}</p>
+				<div>
+					<a class="btn btn-info" ng-click="addMovieForm()" >Add Movie</a>	
+					<a class="btn btn-info" ng-click="updateMovieForm()" > Update Movie</a>
+					<a class="btn btn-info" ng-click="addTheaterForm()" >Add Theater</a>
+					<a class="btn btn-info" ng-click="updateTheaterForm()" > Update Theater</a>
+					<a class="btn btn-info" ng-click="addMovietoTheaterForm()" >Add Movie Show to Theater</a>
+					<a class="btn btn-info" ng-click="updateMovieShowForm()"> Update MovieShow</a>
+				</div>
+				</br>
+				</br>	
+				<div class="col-md-4 animate-hide formbg" ng-show="showAddMovieForm" >
+					<h4>Add New Movie</h4>
+					<form id="addMovieForm"  >
+						<div class="form-group">
+							<label for="addMovieName">Movie Name</label></br>				
+							<input type="text" id="addMovieName" class="form-control" ng-model="addMovieName" required  placeholder="Movie name"/>
+							<div role="alert">
+						      <span class="error" ng-show="addMovieForm.addMovieName.$error.required">
+						       Required!</span>
+						    </div>
+						</div>
+						<div class="form-group">
+							<label for="addDate">Released Date</label>				
+							<input type="date" id="addDate" class="form-control" ng-model="addDate" required placeholder="Movie released date in yyyy-MM-dd format"/> 
+							<div role="alert">
+						      <span class="error" ng-show="addMovieForm.addDate.$error.required">
+						       Required!</span>
+						    </div>
+						</div>
+						<div class="form-group">
+							<label for="addLength">Run Time</label>				
+							<input type="text" id="addLength" class="form-control" ng-model="addLength"  placeholder="Movie run time"/>
+						</div>
+						<div class="form-group">
+							<label for="addRating">Rating</label>				
+							<input type="text" id="addRating" class="form-control" ng-model="addRating"  placeholder="Movie rating"/> 
+						</div>
+						<div class="form-group">
+							<label for="addCat">Category</label>				
+							<select id="addCat" class="form-control" ng-model="addCat" ng-options="cat for cat in categories | orderBy : 'cat'" placeholder="Select category"></select>
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="addMovie()">Add Movie</button>
+					</form>
+				</div>	
+				<div class="col-md-4 animate-hide formbg" ng-show="showUpdateMovieForm">
+					<h4>Update Movie</h4>
+					<form>
+						<div class="form-group">
+							<label for="upMovie">Movie</label>	
+							<select class="form-control" id="upMovie" ng-model="selectedUpMovie" ng-options="movie.name for movie in upMovies |orderBy: 'name'" placeholder="Select movie"></select>
+						</div>
+						<div class="form-group">
+							<label for="upMovieName">Movie Name  </label>				
+							<input type="text" id="upMovieName" class="form-control" ng-model="selectedUpMovie.name" /> 
+						</div>
+						<div class="form-group">
+							<label for="upDate">Released Date </label>				
+							<input type="date" id="upDate"  class="form-control" ng-model="selectedUpMovie.date"  /> 
+						</div>
+						<div class="form-group">
+							<label for="upLength">Run Time </label>				
+							<input type="text" id="upLength" class="form-control" ng-model="selectedUpMovie.length"  /> 
+						</div>
+						<div class="form-group">
+							<label for="upRating">Rating </label>				
+							<input type="text" id="upRating" class="form-control" ng-model="selectedUpMovie.rating" />
+						</div>
+						<div class="form-group">
+							<label for="selCat">Category</label>				
+							<select id="selCat" class="form-control" ng-model="selectedUpMovie.category" ng-options="cat for cat in categories | orderBy : 'cat'" ></select>
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="updateMovie(false)">Update Movie</button>
+						<button class="btn btn-info btn-sm" ng-click="updateMovie(true)">Delete Movie</button>
+					</form>
+				</div>		
+				<div class="col-md-4 animate-hide formbg" ng-show="showAddTheaterForm">
+					<h4>Add New Theater</h4>
+					<form>
+						<div class="form-group">
+							<label for="addTheaterName">Theater Name</label>				
+							<input type="text" id="addTheaterName" class="form-control" ng-model="addTheaterName"  placeholder="Theater name"/> 
+						</div>
+						<div class="form-group">
+							<label for="addCity">City</label>				
+							<input type="text" id="addCity" class="form-control" ng-model="addCity"  placeholder="Enter city"/> 
+						</div>
+						<div class="form-group">
+							<label for="addState">State</label>				
+							<input type="text" id="addState" class="form-control" ng-model="addState"  placeholder="Enter State"/> 
+						</div>
+						<div class="form-group">
+							<label for="addZip">Rating</label>				
+							<input type="text" id="addZip" class="form-control" ng-model="addZip"  placeholder="Enter zipCode"/> 
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="addTheater()">Add Theater</button>
+					</form>
+				</div>	
+				<div class="col-md-4 animate-hide formbg" ng-show="showUpdateTheaterForm">
+					<h4>Add New Theater</h4>
+					<form>
+						<div class="form-group">
+							<label for="upTheater">Theater</label>		
+							<select class="form-control" id="upTheater" ng-model="selectedUpTheater" ng-options="theater.name for theater in theaters |orderBy: 'name'" placeholder="Select Theater"></select>	
+						</div>
+						<div class="form-group">
+							<label for="upTheaterName">Theater Name</label>				
+							<input type="text" id="upTheaterName" class="form-control" ng-model="selectedUpTheater.name" /> 
+						</div>
+						<div class="form-group">
+							<label for="upCity">City</label>				
+							<input type="text" id="upCity" class="form-control" ng-model=selectedUpTheater.city  /> 
+						</div>
+						<div class="form-group">
+							<label for="upState">State</label>				
+							<input type="text" id="upState" class="form-control" ng-model="selectedUpTheater.state"  /> 
+						</div>
+						<div class="form-group">
+							<label for="upZip">Rating</label>				
+							<input type="text" id="upZip" class="form-control" ng-model="selectedUpTheater.zip"/> 
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="updateTheater(false)">Update Theater</button>
+						<button class="btn btn-info btn-sm" ng-click="updateTheater(true)">Delete Theater</button>
+					</form>
+				</div>	
+				<div class="col-md-4 animate-hide formbg" ng-show="showAddMovietoTheaterForm">
+					<h4>Add new movie show to theater</h4>
+					<form>
+						<div class="form-group">
+							<label for="addTheater">Theater</label>		
+							<select class="form-control" id="addTheater" ng-model="selectedTheater" ng-options="theater.name for theater in theaters |orderBy: 'name'"></select>	
+						</div>
+						<div class="form-group">
+							<label for="addMovie">Movie</label>	
+							<select class="form-control" id="addMovie" ng-model="selectedMovie" ng-options="movie.name for movie in movies |orderBy: 'name'" placeholder="Select movie"></select>
+						</div>
+						<div class="form-group">
+							<label for="addShowTime">Show time</label>				
+							<input type="text" id="addShowTime" class="form-control" ng-model="addShowTime"  placeholder="Enter show time in 24 hour format"/>
+						</div>
+						<div class="form-group">
+							<label for="addPrice">Ticket price</label>				
+							<input type="text" id="addPrice" class="form-control" ng-model="addPrice"  placeholder="Enter ticket price"/>
+						</div>
+						<div class="form-group">
+							<label for="addSeats">Available Seats</label>				
+							<input type="text" id="addSeats" class="form-control" ng-model="addSeats"  placeholder="Enter available seats"/>
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="addMovietoTheater()">Add movie show to theater</button>
+					</form>
+				</div>	
+				<div class="col-md-8 animate-hide formbg" ng-show="showUpdateShowtoTheaterForm">
+					<h4 >Update movie show to theater</h4>
+					<form>
+						<div class="form-group">
+							<label for="srchTheater">Theater</label>		
+							<select class="form-control" id="srchTheater" ng-model="srchTheater" ng-options="theater.name for theater in theaters |orderBy: 'name'" placeholder="Select theater"></select>	
+						</div>
+						<div class="form-group">
+							<label for="srchMovie">Movie</label>	
+							<select class="form-control" id="srchMovie" ng-model="srchMovie" ng-options="movie.name for movie in movies |orderBy: 'name'" placeholder="Select movie"></select>
+						</div>
+						<button class="btn btn-info btn-sm" ng-click="srchShowInTheater()">Get shows</button>
+					</form>
+					<br/>
+					<table  class="table table-striped table-hover">	
+						<thead>
+                                <tr>
+                                    <th>Show Time</th>
+                                    <th>Price</th>
+                                    <th>Available Seats</th>
+                                    <th colspan="2">&nbsp;</th>
+                                </tr>
+                         </thead>
+							<tr ng-repeat="show in shows">
+								<td ><input type="text" ng-model="show.movieShow.showTime"  /></td>
+								<td><input type="text" ng-model="show.movieShow.price"/> </td>
+								<td><input type="text" ng-model="show.movieShow.seatsAvailable"/> </td>
+								<td> <a class="btn btn-info btn-xs" ng-click="editShow(show.movieShow, false)">Edit</a> &nbsp;<a class="btn btn-info btn-xs" ng-click="editShow(show.movieShow, true)">Delete</a><td>
+							</tr>
+					</table>
+				</div>	
+			</div>

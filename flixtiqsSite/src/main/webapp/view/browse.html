@@ -1,0 +1,133 @@
+<div class = "modal-body row" >			
+			<div ng-controller="movieSearchController" class="search"></br>
+				<p>{{messageText}}</p>
+				
+				<form name="theaterSrch" class="form-inline" novalidate>	
+					<div class="form-group">
+						<label for="name">Name</label>				
+						<input type="text" id="name" class="form-control" ng-model="searchName" placeholder="Enter Name" /> 
+					</div>
+					<div class="form-group">
+						<label for="city">City</label>				
+						<input type="text" id="city" class="form-control" ng-model="searchCity" placeholder="Enter City" /> 
+					</div>
+					<div class="form-group">
+						<label for="state">State</label>				
+						<input type="text" id="state" class="form-control" ng-model="searchState"  placeholder="Enter state"/> 
+					</div>
+					<div class="form-group">
+						<label for="zip">Zip Code</label>
+						<input type="text" id="searchZip" class="form-control" ng-model="searchZip" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" /> 
+						 <span class="error" ng-show="theaterSrch.searchZip.$error.pattern">not in format!</span>
+					</div>
+					<button class="btn btn-info"" ng-click="searchTheater()">Search Theater</button>		
+				</form></br>
+				<div class="form-inline">
+					<div class="form-group">
+						<label for="movieName">Movie Name</label>				
+						<input type="text" id="movieName" class="form-control" ng-model="searchMovieName"  placeholder="Enter movie name"/> </br>
+					</div>
+					<div class="form-group">
+						<label for="releasedDate">Release Date</label>
+						<input type="date" id="releasedDate" class="form-control" ng-model="searchDate"  placeholder="Enter a date"/> </br>
+					</div>
+					<button class="btn btn-info" ng-click="searchMovie(true, true)">Search Movie</button>	
+					<a ng-click="searchMovie(true, false)" style="padding-left:30px">See all movies</a>	
+					<a ng-click="searchMovie(false, true)" style="padding-left:30px">Coming Soon Movies</a>
+				</div>
+				</br>									
+				<div class="col-xs-6">
+					<div ng-show="nowPlaying" class="table-responsive">
+						<h4>Now Playing: </h4>
+						<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Category</th>
+								<th> Released Date</th>
+								<th> Run Time</th>
+								<th>Rating</th>
+							</tr>
+						</thead>
+							<tr ng-repeat="movie in playingMovies | orderBy:'movie.name'">
+								<td><a ng-click="searchTheaterforMovie(movie.movie.movieId, movie.movie.name)" >{{movie.movie.name}}</a> </td>
+								<td> {{movie.movie.category}}</td>
+								<td>{{movie.movie.releasedDate}}</td>
+								<td> {{movie.movie.length}} Minuts</td>
+								<td> *{{movie.movie.rating}}</td>
+							</tr>
+						</table>
+						</br>
+					</div>
+					<div ng-show="comingSoon" class="table-responsive">
+						<h4>Coming Soon:</h4>
+						<table class="table table-striped table-hover">
+							<tr ng-repeat="movie in comingMovies | orderBy:'movie.name'">
+								<td>{{movie.movie.name}}</a> </br><b>Category:</b> {{movie.movie.category}}</td>
+								<td><b>Realeased Date :</b> {{movie.movie.releasedDate}}, </br> <b>Movie run time :</b> {{movie.movie.length}} Minuts</td>
+							</tr>
+						</table>
+					</div>
+					<div class="table-responsive" ng-show="showTheater">
+					<h4>Theaters</h4>
+						<table class="table table-striped table-hover">
+						<thead>
+							<th>Theater</th>
+							<th>Address</th>
+						</thead>
+							<tr ng-repeat="theater in theaters | orderBy:'theater.name'">
+								<td><a ng-click="searchMoviesforTheater(theater.theater.theaterId, theater.theater.name)"> {{theater.theater.name}} </a></td>
+								<td>{{theater.theater.city}}, {{theater.theater.state}}  {{theater.theater.zipcode}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-6" >
+					<div  ng-show="showTheaterPlayingMovie" class="table-responsive" >
+						<h4>Theaters playing movie: {{movieName}}</h4>
+						<table class="table table-striped table-hover">	
+						<thead>
+							<tr>
+								<th>Theater</th>
+								<th>Address</th>
+								<th>Show Timing </th>
+							</tr>
+						</thead>
+							<tr ng-repeat="theater in movieTheaters">
+								<td>{{theater.theater.name}} </td>
+								<td>{{theater.theater.city}}, {{theater.theater.state}}  {{theater.theater.zipcode}}</td>
+								<td> 					
+										<table>
+											<tr>
+												<td><a href="#/shows/{{theater.theater.movieShow.showId}}">{{theater.theater.movieShow.showTime}}</a></td>
+												<td ng-repeat="show in theater.theater.movieShow"><a  href="#/shows/{{show.showId}}">{{show.showTime}}</a>&nbsp;&nbsp;&nbsp; </td>
+											</tr>								
+										</table>									
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div ng-show="showPlayingMovieinTheater" class="table-responsive">	
+						<h4>Movies playing in theater: {{theaterName}}</h4>				
+						<table class="table table-striped table-hover">
+						 	<thead>
+						 		<th>Movie</th>
+						 		<th>User Rating</th>
+						 		<th>Show Timing</th>
+						 	</thead>
+							<tr ng-repeat="movie in theaterMovies">
+								<td>{{movie.movie.name}}</td>
+								<td> *{{movie.movie.rating}}</td>
+								<td>			
+										<table>
+											<tr >
+												<td ng-repeat="show in movie.show"><a  href="#/shows/{{show.showId}}">{{show.showTime}}</a>&nbsp;&nbsp;&nbsp;</td>
+											</tr>								
+										</table>									
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
