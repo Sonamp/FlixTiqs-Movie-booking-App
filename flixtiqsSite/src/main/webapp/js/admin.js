@@ -177,12 +177,12 @@ adminApp.controller("adminController", function($scope, $http) {
 			.success(function(data, status) {
 				$scope.httpStatus = status;
 				$scope.httpData = data;
-				$scope.errorStatus=false;	
-				$scope.selectedUpMovie = null;
+				$scope.errorStatus=false;					
 				if(isDeleted)
 					$scope.messageText="Deleted movie with ID "+$scope.selectedUpMovie.id;
 				else
 					$scope.messageText="updated movie with ID "+$scope.selectedUpMovie.id;
+				$scope.selectedUpMovie = null;
 			})
 			.error(function(data, status) {
 				$scope.httpStatus = status;				

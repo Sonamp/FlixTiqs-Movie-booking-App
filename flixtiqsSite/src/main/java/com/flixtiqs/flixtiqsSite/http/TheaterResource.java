@@ -76,15 +76,15 @@ public class TheaterResource {
 	public List<HttpTheater> getTheaterSearch(@QueryParam("name") String name, @QueryParam("city") String city, @QueryParam("state") String state, 
 			@QueryParam("zip") String zipcode, @QueryParam("movie") Long movieId) throws FlixtiqsException {
 		List<Theater> foundList= new ArrayList<Theater>();
-		if(name != null)
+		if(name != null && !name.isEmpty())
 		{
 			foundList = theaterService.getTheaterByName(name);
 		}
-		else if(city != null || state != null)
+		else if(city != null && !city.isEmpty() || state != null && !state.isEmpty())
 		{
 			foundList = theaterService.getTheaterByCityState(city, state);
 		}
-		else if(zipcode != null)
+		else if(zipcode != null && !zipcode.isEmpty())
 		{
 			foundList = theaterService.getTheaterByZipcode(zipcode);
 		}
