@@ -1,29 +1,20 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* FlixTiqs Movie booking application (Mini Fandango)
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Maven Project, Run as a maven project
+* This app code behind is in Java Spring and hibernate
+* Tests are in jUnit
+* Front-end is in AngularJS, Bootstrap and css
+* MySql Database is used, This project repo has FlixTiqsModel MySql workbench to create DB.
+* Set server runtime environment to Apache-tomcat server
+* Host the application at localhost on running Tomcat server. 
+* Access the URL http://localhost:8080/flixtiqsSite/view/home.html#/
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
 
 ### Who do I talk to? ###
 
 * Repo owner or admin
-* Other community or team contact
